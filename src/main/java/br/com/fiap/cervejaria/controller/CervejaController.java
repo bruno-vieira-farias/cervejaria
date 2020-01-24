@@ -2,6 +2,7 @@ package br.com.fiap.cervejaria.controller;
 
 import br.com.fiap.cervejaria.dto.CervejaDto;
 import br.com.fiap.cervejaria.dto.CreateCervejaDto;
+import br.com.fiap.cervejaria.dto.PrecoCervejaDto;
 import br.com.fiap.cervejaria.dto.Tipo;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -60,6 +61,30 @@ public class CervejaController {
         CervejaDto cervejaDto = new CervejaDto(createCervejaDto, cervejaDtoList.size() + 1);
         cervejaDtoList.add(cervejaDto);
         return cervejaDto;
+    }
+
+    @PutMapping("{id}")
+    public CervejaDto update (@PathVariable Integer id, @RequestBody CreateCervejaDto createCervejaDto){
+        CervejaDto cervejaDto = findById(id);
+        cervejaDto.setMarca(createCervejaDto.getMarca());
+        cervejaDto.setPreco(createCervejaDto.getPreco());
+        cervejaDto.setTeorAlcoolico(createCervejaDto.getTeorAlcoolico());
+        cervejaDto.setDataLancamento(createCervejaDto.getDataLancamento());
+        cervejaDto.setTipo(createCervejaDto.getTipo());
+        return cervejaDto;
+    }
+
+    @PatchMapping("{id}")
+    public CervejaDto update (@PathVariable Integer id, @RequestBody PrecoCervejaDto precoCervejaDto){
+        CervejaDto cervejaDto = findById(id);
+        cervejaDto.setPreco(precoCervejaDto.getPreco());
+        return cervejaDto;
+    }
+
+    @DeleteMapping("{id}")
+    public void delete (@PathVariable Integer id){
+        CervejaDto cervejaDto = findById(id);
+        cervejaDtoList.remove(cervejaDto);
     }
 
     @GetMapping("/hello")
